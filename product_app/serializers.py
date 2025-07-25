@@ -4,11 +4,8 @@ from .models import Product
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = '__all__'
+        fields = ['id', 'name', 'image', 'description', 'price', 'category',  'stock', 'seller']  
 
-
-    
-    """
     def create(self, validated_data):
         return Product.objects.create(**validated_data)
     
@@ -18,4 +15,3 @@ class ProductSerializer(serializers.ModelSerializer):
         instance.price = validated_data.get('price', instance.price)
         instance.save()
         return instance
-    """
