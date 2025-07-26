@@ -1,7 +1,9 @@
-from rest_framework import generics, permissions, response
+from rest_framework import generics, permissions
 from .models import Order, OrderItem
 from cart_app.models import Cart, CartItem
 from .serializers import OrderSerializer, OrderItemSerializer
+from rest_framework.response import Response
+from rest_framework.exceptions import NotFound, ValidationError
 from decimal import Decimal
 
 class OrderListCreateView(generics.ListCreateAPIView):
@@ -9,8 +11,11 @@ class OrderListCreateView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user)
-    
+        try:
+            return Order.objects.filter(user=self.request.user)
+        except Exception as e:
+            return Order.objects.none()
+
 class CheckoutView(generics.CreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -31,6 +36,5 @@ class CheckoutView(generics.CreateAPIView):
         items.delete()
         
         serializer = self.get_serializer(order)
-        return response(serializer.data, status=201)
-        return response({"detail": "Order created successfully."}, status=201)
-    
+        return Response(serializer.data, status=201)
+        return Response({"detail": "Order created successfully."}, status=201)

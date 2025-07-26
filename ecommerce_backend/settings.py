@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-
+from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'category_app.apps.CategoryAppConfig',
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_filters',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +58,17 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    # security middleware
+    'django.middleware.security.SecurityMiddleware', 
+    'django.middleware.clickjacking.XFrameOptionsMiddleware', 
 ]
+
+# Set short ACCESS_TOKEN_LIFETIME
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+}
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
@@ -69,8 +81,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,
+    'DEFAULT_PAGINATION_CLASS': 'utils.pagination.DefaultPagination',
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
         'rest_framework.filters.SearchFilter',
@@ -78,7 +89,36 @@ REST_FRAMEWORK = {
     )
 }
 
-ROOT_URLCONF = 'project_nexus.urls'
+# logging configuration
+LOGGING_DIR = BASE_DIR / 'logs'
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] [{levelname}] {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'product_file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': os.path.join(BASE_DIR, 'logs', 'product.log'),
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'products': {
+            'handlers': ['product_file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
+}
+
+
+ROOT_URLCONF = 'ecommerce_backend.urls'
 
 TEMPLATES = [
     {
@@ -95,8 +135,11 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'project_nexus.wsgi.application'
+WSGI_APPLICATION = 'ecommerce_backend.wsgi.application'
 
+# user to reset their password
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@example.com' # to be changed to actual email address
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
