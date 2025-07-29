@@ -1,17 +1,20 @@
+# products_app/models.py
 from django.db import models
-
-# Create your models here.
+from django.contrib.auth import get_user_model
 from category_app.models import Category
-from sellers_app.models import Seller
+
+User = get_user_model()
 
 class Product(models.Model):
-    name = models.CharField(max_length=50)
-    image = models.ImageField(null=True, blank=True, upload_to='products/')
-    description = models.TextField(max_length=350)
-    price = models.DecimalField(max_digits=15, decimal_places=2)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    seller = models.ForeignKey('users_app.User', on_delete=models.CASCADE)
-    stock = models.PositiveIntegerField()
-    
+    name = models.CharField(max_length=255)
+    description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    stock = models.PositiveIntegerField(default=0)
+    image = models.ImageField(upload_to='products/', null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, related_name='products')
+
     def __str__(self):
         return self.name
+    def is_in_stock(self):
+        return self.stock > 0

@@ -1,0 +1,24 @@
+[2025-07-29 19:45:37,247] [ERROR] Error during product creation
+Traceback (most recent call last):
+  File "D:\ALX_Studies\project_nexus_BE\product_app\views.py", line 29, in perform_create
+    product = serializer.save(user=self.request.user)
+  File "D:\ALX_Studies\project_nexus_BE\nexusenv\Lib\site-packages\rest_framework\serializers.py", line 210, in save
+    self.instance = self.create(validated_data)
+                    ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "D:\ALX_Studies\project_nexus_BE\product_app\serializers.py", line 10, in create
+    return Product.objects.create(**validated_data)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "D:\ALX_Studies\project_nexus_BE\nexusenv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "D:\ALX_Studies\project_nexus_BE\nexusenv\Lib\site-packages\django\db\models\query.py", line 661, in create
+    obj = self.model(**kwargs)
+  File "D:\ALX_Studies\project_nexus_BE\nexusenv\Lib\site-packages\django\db\models\base.py", line 569, in __init__
+    raise TypeError(
+    ...<2 lines>...
+    )
+TypeError: Product() got unexpected keyword arguments: 'user'
+[2025-07-29 19:48:13,320] [INFO] [CREATE] Product 'Smart Tv' by Nexus (2) from IP 127.0.0.1
+[2025-07-29 20:14:18,099] [INFO] [CREATE] Product 'Dress' by Nexus (2) from IP 127.0.0.1
+[2025-07-29 20:16:06,046] [INFO] [CREATE] Product 'Shoes' by Nexus (2) from IP 127.0.0.1
+[2025-07-29 21:48:30,075] [INFO] [CREATE] Product 'Dress' by Nexus (2) from IP 127.0.0.1

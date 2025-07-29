@@ -6,6 +6,7 @@ from .models import Product
 from .serializers import ProductSerializer
 from .permissions import IsAdminOrSellerOwner
 from .filters import ProductFilter
+from rest_framework.exceptions import ValidationError
 import logging
 
 logger = logging.getLogger('products')
@@ -22,17 +23,16 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return super().get_queryset()
+    
     def perform_create(self, serializer):
         try:
-            seller = getattr(self.request.user, 'seller', None)
-            if not seller:
-                raise PermissionError("Only sellers can create products.")
-            product = serializer.save(seller=seller)
+            product = serializer.save(seller=self.request.user)  # Use correct field name here
             logger.info(
                 f"[CREATE] Product '{product.name}' by {self.request.user.username} "
                 f"({self.request.user.id}) from IP {self.get_client_ip(self.request)}"
             )
         except Exception as e:
+            logger.exception("Error during product creation")
             raise serializers.ValidationError({'error': str(e)})
 
     def perform_update(self, serializer):
