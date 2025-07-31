@@ -22,7 +22,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     ordering_fields = ['price']
 
     def get_queryset(self):
-        return super().get_queryset()
+         return super().get_queryset().order_by('-id')
     
     def perform_create(self, serializer):
         try:

@@ -12,7 +12,7 @@ class OrderListCreateView(generics.ListCreateAPIView):
     
     def get_queryset(self):
         try:
-            return Order.objects.filter(user=self.request.user)
+            return Order.objects.filter(user=self.request.user).order_by('-created_at')
         except Exception as e:
             return Order.objects.none()
 
@@ -38,3 +38,11 @@ class CheckoutView(generics.CreateAPIView):
         serializer = self.get_serializer(order)
         return Response(serializer.data, status=201)
         return Response({"detail": "Order created successfully."}, status=201)
+
+class OrderDetailView(generics.RetrieveAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
