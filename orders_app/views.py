@@ -5,6 +5,7 @@ from .serializers import OrderSerializer, OrderItemSerializer
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, ValidationError
 from decimal import Decimal
+from rest_framework.generics import RetrieveUpdateAPIView
 
 class OrderListCreateView(generics.ListCreateAPIView):
     serializer_class = OrderSerializer
@@ -46,3 +47,8 @@ class OrderDetailView(generics.RetrieveAPIView):
 
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
+
+class OrderDetailUpdateView(RetrieveUpdateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    lookup_field = 'id'
