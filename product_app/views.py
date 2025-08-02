@@ -1,5 +1,7 @@
 from rest_framework import viewsets, filters, serializers, status
 from rest_framework.response import Response
+from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Product
@@ -23,6 +25,18 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
          return super().get_queryset().order_by('-id')
+
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def mine(self, request):
+        user_products = self.queryset.filter(seller=request.user)
+        page = self.paginate_queryset(user_products)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+        serializer = self.get_serializer(user_products, many=True)
+        return Response(serializer.data)
+
     
     def perform_create(self, serializer):
         try:
@@ -35,28 +49,34 @@ class ProductViewSet(viewsets.ModelViewSet):
             logger.exception("Error during product creation")
             raise serializers.ValidationError({'error': str(e)})
 
+
     def perform_update(self, serializer):
         try:
-            seller = getattr(self.request.user, 'seller', None)
-            if not seller or seller != serializer.instance.seller:
+            user = self.request.user
+            if serializer.instance.seller != user and not user.is_staff:
                 raise PermissionError("Only the product owner or admin can update this product.")
             product = serializer.save()
-            logger.info(f"[UPDATE] '{product.name}' updated by {self.request.user.username}")
+            logger.info(f"[UPDATE] '{product.name}' updated by {user.username}")
         except Exception as e:
             raise serializers.ValidationError({'error': str(e)})
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()
-        seller = getattr(self.request.user, 'seller', None)
-        if not request.user.is_staff and seller != instance.seller:
+        user = request.user
+
+        if not user.is_staff and instance.seller != user:
             return Response({'error': 'You do not have permission to delete this product.'},
                             status=status.HTTP_403_FORBIDDEN)
+
         try:
+            product_name = instance.name  # capture before deletion
             instance.delete()
-            logger.info(f"[DELETE] Product '{instance.name}' deleted by {self.request.user.username}")
+            logger.info(f"[DELETE] Product '{product_name}' deleted by {user.username}")
         except Exception as e:
-            logger.error(f"[DELETE] Error deleting product '{instance.name}': {str(e)}")
+            logger.error(f"[DELETE] Error deleting product: {str(e)}")
             return Response({'error': 'Failed to delete product.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        return Response({'success': f"Product '{product_name}' deleted."}, status=status.HTTP_204_NO_CONTENT)
         return super().destroy(request, *args, **kwargs)
     
     # This method retrieves the client's IP address from the request headers.

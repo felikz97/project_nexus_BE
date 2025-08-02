@@ -1,0 +1,24 @@
+[2025-08-02 12:08:14,583] [INFO] [CREATE] Product 'Dress' by Nexus (1) from IP 127.0.0.1
+[2025-08-02 12:09:15,023] [INFO] [CREATE] Product 'Shoe' by Nexus (1) from IP 127.0.0.1
+[2025-08-02 12:11:24,608] [INFO] [CREATE] Product 'Office material' by Nexus (1) from IP 127.0.0.1
+[2025-08-02 18:27:51,810] [INFO] [CREATE] Product 'Shoes' by Nexus (1) from IP 127.0.0.1
+[2025-08-02 18:51:07,292] [INFO] [DELETE] Product 'Shoes' deleted by Nexus
+[2025-08-02 18:52:16,804] [INFO] [UPDATE] 'Spoon' updated by Nexus
+[2025-08-02 18:53:02,871] [INFO] [DELETE] Product 'Smart Tv' deleted by Nexus
+[2025-08-02 18:54:19,603] [INFO] [UPDATE] 'Shoes' updated by Nexus
+[2025-08-02 18:55:13,423] [INFO] [UPDATE] 'Shoes' updated by Nexus
+[2025-08-02 18:56:09,584] [INFO] [UPDATE] 'Shoe' updated by Nexus
+[2025-08-02 18:57:10,762] [INFO] [UPDATE] 'Shoes' updated by Nexus
+[2025-08-02 18:57:39,636] [INFO] [DELETE] Product 'Shoes' deleted by Nexus
+[2025-08-02 19:00:57,532] [INFO] [DELETE] Product 'Shoe' deleted by Nexus
+[2025-08-02 19:06:50,157] [INFO] [CREATE] Product 'Shoes' by Nexus (1) from IP 127.0.0.1
+[2025-08-02 19:07:16,520] [INFO] [UPDATE] 'Shoes' updated by Nexus
+[2025-08-02 19:07:31,703] [INFO] [DELETE] Product 'Shoes' deleted by Nexus
+[2025-08-02 19:08:30,830] [INFO] [CREATE] Product 'Shoes' by Nexus (1) from IP 127.0.0.1
+[2025-08-02 19:08:45,604] [INFO] [UPDATE] 'Shoes' updated by Nexus
+[2025-08-02 19:09:10,002] [INFO] [UPDATE] 'Shoes' updated by Nexus
+[2025-08-02 19:09:27,866] [INFO] [DELETE] Product 'Shoes' deleted by Nexus
+[2025-08-02 19:23:39,974] [INFO] [UPDATE] 'Office material' updated by Nexus
+[2025-08-02 19:46:24,106] [INFO] [UPDATE] 'Office material' updated by Nexus
+[2025-08-02 19:57:01,522] [INFO] [CREATE] Product 'Shoes' by Nexus (1) from IP 127.0.0.1
+[2025-08-02 20:55:14,919] [INFO] [CREATE] Product 'Spoons' by dabitha (4) from IP 127.0.0.1
