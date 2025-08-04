@@ -9,6 +9,11 @@ class User(AbstractUser):
     Full_Name = models.CharField(max_length=30, blank=True)
     email = models.EmailField(unique=True)
     is_seller = models.BooleanField(default=False)
+    mobile = models.CharField(max_length=15, blank=True)
+    address = models.CharField(max_length=255, blank=True)
+    image = models.ImageField(upload_to='user_images/', blank=True, null=True)
+    shop_name = models.CharField(max_length=100, blank=True)
+    bio = models.TextField(blank=True)
     
     def __str__(self):
         return self.username

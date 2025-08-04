@@ -32,24 +32,38 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    'djoser',  
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # apps
     'users_app.apps.UsersAppConfig',
     'sellers_app.apps.SellersAppConfig',
     'product_app.apps.ProductAppConfig',
     'orders_app.apps.OrdersAppConfig',
     'cart_app.apps.CartAppConfig',
     'category_app.apps.CategoryAppConfig',
-    'rest_framework',
+
     'rest_framework_simplejwt',
     'django_filters',
     'drf_yasg',
     'corsheaders',
 ]
+
+DJOSER = {
+    'SEND_ACTIVATION_EMAIL': False,
+    'PASSWORD_RESET_CONFIRM_URL': "reset-password-confirm/{uid}/{token}",
+    'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': False,
+    'PASSWORD_RESET_CONFIRM_RETYPE': False,
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SERIALIZERS': {},
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

@@ -45,6 +45,8 @@ urlpatterns = [
     path('api/users/', include('users_app.urls')),
     path('api/', include('cart_app.urls')),
     path('api/cart/', include('cart_app.urls')),
+    path("api/auth/", include("djoser.urls")),
+    path("api/auth/", include("djoser.urls.jwt")),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [
