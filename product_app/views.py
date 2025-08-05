@@ -10,6 +10,7 @@ from .permissions import IsAdminOrSellerOwner
 from .filters import ProductFilter
 from rest_framework.exceptions import ValidationError
 import logging
+import django_filters
 
 logger = logging.getLogger('products')
 
@@ -17,11 +18,11 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     permission_classes = [IsAuthenticatedOrReadOnly, IsAdminOrSellerOwner]
-
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_class = ProductFilter
     search_fields = ['name', 'description']
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     ordering_fields = ['price']
+    ordering = ['id']
 
     def get_queryset(self):
          return super().get_queryset().order_by('-id')
@@ -89,3 +90,8 @@ class ProductViewSet(viewsets.ModelViewSet):
         else:
             ip = request.META.get('REMOTE_ADDR')
         return ip
+class ProductFilter(django_filters.FilterSet):
+    
+    class Meta:
+        model = Product
+        fields = ['category'] 
