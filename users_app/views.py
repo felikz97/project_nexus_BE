@@ -1,11 +1,12 @@
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
-from rest_framework import generics, status
-from rest_framework.permissions import AllowAny
+from rest_framework.decorators import action
+from rest_framework import generics, status, viewsets
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.views import APIView
 from django.contrib.auth import get_user_model
-from .serializers import UserRegisterSerializer, UserSerializer, UserProfileSerializer
-from rest_framework.permissions import IsAuthenticated
+from .serializers import UserRegisterSerializer, UserSerializer, UserProfileSerializer, AdminUserSerializer
+
 
 User = get_user_model()
 
@@ -46,4 +47,31 @@ class UserProfileView(APIView):
         serializer = UserProfileSerializer(request.user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        return Response(serializer.data)
+
+class AdminUserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = AdminUserSerializer
+    permission_classes = [IsAdminUser]
+
+    @action(detail=True, methods=['post'], permission_classes=[IsAdminUser])
+    def toggle_seller(self, request, pk=None):
+        """
+        Admin-only endpoint to approve or revoke seller status.
+        """
+        user = self.get_object()
+        user.is_seller = not user.is_seller
+        user.save()
+        return Response({
+            'status': 'Seller status updated successfully',
+            'user_id': user.id,
+            'username': user.username,
+            'is_seller': user.is_seller
+        }, status=status.HTTP_200_OK)
+
+class CurrentUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = AdminUserSerializer(request.user)
         return Response(serializer.data)

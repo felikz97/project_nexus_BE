@@ -14,6 +14,8 @@ class User(AbstractUser):
     image = models.ImageField(upload_to='user_images/', blank=True, null=True)
     shop_name = models.CharField(max_length=100, blank=True)
     bio = models.TextField(blank=True)
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     
     def __str__(self):
         return self.username

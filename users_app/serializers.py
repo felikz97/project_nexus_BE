@@ -27,3 +27,12 @@ class UserProfileSerializer(serializers.ModelSerializer):
             'image', 'shop_name', 'bio'
         ]
         read_only_fields = ['username', 'email']
+
+class AdminUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            'id', 'username', 'email', 'is_seller', 'is_staff', 'is_superuser',
+            'Full_Name', 'mobile', 'address', 'shop_name', 'bio', 'image'
+        ]
+        read_only_fields = ['id', 'username', 'email']

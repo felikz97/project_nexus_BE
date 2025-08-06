@@ -2,9 +2,11 @@ from rest_framework import viewsets, filters, serializers, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAdminUser
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Product
+from category_app.models import Category
+from category_app.serializers import CategorySerializer
 from .serializers import ProductSerializer
 from .permissions import IsAdminOrSellerOwner
 from .filters import ProductFilter
@@ -95,3 +97,8 @@ class ProductFilter(django_filters.FilterSet):
     class Meta:
         model = Product
         fields = ['category'] 
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [IsAdminUser]
