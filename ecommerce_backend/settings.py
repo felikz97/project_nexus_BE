@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'orders_app.apps.OrdersAppConfig',
     'cart_app.apps.CartAppConfig',
     'category_app.apps.CategoryAppConfig',
+    'rest_framework.authtoken',
 
     'rest_framework_simplejwt',
     'django_filters',

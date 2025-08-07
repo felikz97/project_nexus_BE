@@ -28,6 +28,7 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
 )
 
+from users_app.views import send_password_reset
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -60,6 +61,8 @@ urlpatterns = [
     path("api/auth/", include("djoser.urls")),
     path("api/auth/", include("djoser.urls.jwt")),
     path('api/sellers/', include('sellers_app.urls')),
+    path('api/password-reset/', send_password_reset),
+    path('auth/', include('dj_rest_auth.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [

@@ -1,7 +1,14 @@
-from django.urls import path
+
+# users_app/urls.py
+from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import RegisterView, UserProfileView, CurrentUserView
 from django.contrib.auth import views as auth_views
+from rest_framework.routers import DefaultRouter
+from .views import AdminUserViewSet
+
+router = DefaultRouter()
+router.register(r'users', AdminUserViewSet, basename='user')
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
@@ -9,8 +16,9 @@ urlpatterns = [
     path('refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('profile/', UserProfileView.as_view(), name='user-profile'),
     path('me/', CurrentUserView.as_view(), name='current-user'),
-    path('users/', CurrentUserView.as_view(), name='current_user'),
-
+    
+    
+    path('api/', include(router.urls)),
 ]
 
 # allow users to reset their password
