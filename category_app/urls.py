@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import CategoryViewSet, CategoryAdminViewSet
 
 router = DefaultRouter()
-router.register(r'categories', CategoryViewSet, basename='category')
-router.register(r'admin/categories', CategoryAdminViewSet, basename='admin-categories')
+router.register(r'', CategoryViewSet, basename='category')  # public categories
+router.register(r'admin', CategoryAdminViewSet, basename='admin-categories')  # admin categories
+
 urlpatterns = router.urls
