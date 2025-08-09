@@ -23,8 +23,8 @@ ASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='', cast=lambda v: v.split(','))
-
+ALLOWED_HOSTS = ['*']
+"""
 DATABASES = {
     'default': {
         'ENGINE': config('DB_ENGINE'),
@@ -36,6 +36,14 @@ DATABASES = {
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
+    }
+}
+"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -77,7 +85,9 @@ DJOSER = {
     'PASSWORD_RESET_SHOW_EMAIL_NOT_FOUND': False,
     'PASSWORD_RESET_CONFIRM_RETYPE': False,
     'ACTIVATION_URL': 'activate/{uid}/{token}',
-    'SERIALIZERS': {},
+    'SERIALIZERS': {'password_reset_confirm': 'users_app.serializers.CustomDjoserPasswordResetConfirmSerializer',
+   
+    },
 }
 
 MIDDLEWARE = [
@@ -180,14 +190,14 @@ DEFAULT_FROM_EMAIL = 'noreply@example.com' # to be changed to actual email addre
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators

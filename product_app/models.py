@@ -23,3 +23,4 @@ class Product(models.Model):
         return self.name
     def is_in_stock(self):
         return self.stock > 0
+

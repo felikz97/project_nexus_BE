@@ -1,3 +1,4 @@
+#product_app/permissions.py
 from rest_framework.permissions import BasePermission
 
 class IsAdminOrSellerOwner(BasePermission):
@@ -9,4 +10,4 @@ class IsAdminOrSellerOwner(BasePermission):
         if request.user.is_staff:
             return True
         # Seller (owner of product) can edit/delete
-        return hasattr(obj, 'seller') and obj.seller.user == request.user
+        return hasattr(obj, 'seller') and obj.seller == request.user

@@ -37,3 +37,16 @@ class AdminUserSerializer(serializers.ModelSerializer):
             'Full_Name', 'mobile', 'address', 'shop_name', 'bio', 'image'
         ]
         read_only_fields = ['id', 'username', 'email']
+
+from djoser.serializers import PasswordResetConfirmSerializer as DjoserPasswordResetConfirmSerializer
+from dj_rest_auth.serializers import PasswordResetConfirmSerializer as DjRestAuthPasswordResetConfirmSerializer
+
+
+class CustomDjoserPasswordResetConfirmSerializer(DjoserPasswordResetConfirmSerializer):
+    class Meta:
+        ref_name = "DjoserPasswordResetConfirm"
+
+
+class CustomDjRestAuthPasswordResetConfirmSerializer(DjRestAuthPasswordResetConfirmSerializer):
+    class Meta:
+        ref_name = "DjRestAuthPasswordResetConfirm"

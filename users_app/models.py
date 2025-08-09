@@ -17,5 +17,8 @@ class User(AbstractUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.username

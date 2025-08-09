@@ -24,3 +24,7 @@
 [2025-08-02 20:55:14,919] [INFO] [CREATE] Product 'Spoons' by dabitha (4) from IP 127.0.0.1
 [2025-08-08 12:14:41,102] [INFO] [CREATE] Product 'Shoe' by Nexus (1) from IP 127.0.0.1
 [2025-08-08 12:35:41,591] [INFO] [CREATE] Product 'Shoes' by test122 (13) from IP 127.0.0.1
+[2025-08-08 18:10:27,690] [INFO] [UPDATE] 'Dress' updated by Nexus
+[2025-08-08 19:21:23,859] [INFO] [UPDATE] 'Dress' updated by Nexus
+[2025-08-08 19:21:57,973] [INFO] [UPDATE] 'Dress' updated by Nexus
+[2025-08-08 19:29:07,308] [INFO] [UPDATE] 'Office material' updated by Nexus
